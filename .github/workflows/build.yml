@@ -1,0 +1,19 @@
+name: build
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: '0 16 * * *'
+jobs:
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        frontend: [angular, vue, react]
+    steps:
+      - name: Check out
+        uses: actions/checkout@v2
+      - name: Build
+        run: docker build -f ${{ matrix.frontend }}.Dockerfile .
